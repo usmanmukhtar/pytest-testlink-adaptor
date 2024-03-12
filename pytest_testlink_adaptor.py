@@ -128,9 +128,8 @@ def load_conf_section():
             return os.environ[TLINK.conf[key][1:]]
         return TLINK.conf[key]
 
-    missing_tl_keys = {k for k in TLINK.ini_required_keys
-                       if k not in TLINK.conf}
-    if missing_tl_keys:
+    if missing_tl_keys := {k for k in TLINK.ini_required_keys
+                       if k not in TLINK.conf}:
         TLINK.disable_or_exit('Missing testlink ini keys:'
                               ' %s' % missing_tl_keys)
     else:
@@ -145,8 +144,7 @@ def load_maps_section():
     node_dict = defaultdict(list)
     for key, val in TLINK.maps.items():
         node_dict[val].append(key)
-    duplicates = [x for x in node_dict if len(node_dict[x]) != 1]
-    if duplicates:
+    if duplicates := [x for x in node_dict if len(node_dict[x]) != 1]:
         TLINK.disable_or_exit('Duplicate node ids in testlink maps: %s'
                               % duplicates)
         return
